@@ -21,7 +21,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '1aeca0031823b4120dcc64c998004cd5'
+SECRET_KEY = os.environ.get("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
@@ -93,6 +93,9 @@ DATABASES = {
         'HOST': 'postgres',
         'PORT': '5432'
     }
+
+dataBaseUrl = os.environ.get("DATABASE_URL")
+DATABASES["default"] = dj_database_url.parse(dataBaseUrl, conn_max_age=600
     # 'default': {
     #     'ENGINE': 'django.db.backends.sqlite3',
     #     'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
@@ -183,8 +186,3 @@ LOGGING = {
 }
 
 # Configure Django App for Heroku.
-import django_heroku
-django_heroku.settings(locals())
-
-import dj_database_url
-DATABASES['default'] = dj_database_url.config(conn_max_age=600, ssl_require=True)
