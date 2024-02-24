@@ -1,19 +1,24 @@
 # Usa la imagen base de Python
 FROM python:3.9
 
-# Directorio de trabajo en el contenedor
+# Establece el directorio de trabajo dentro del contenedor
 WORKDIR /app
 
-# Copia los archivos de requerimientos y luego instala las dependencias
+# Copia el archivo requirements.txt al directorio de trabajo
 COPY requirements.txt /app/
+
+# Instala los requerimientos del proyecto
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Copia el resto de los archivos al directorio de trabajo
+# Copia todos los archivos del directorio actual al directorio de trabajo del contenedor
 COPY . /app/
 
-# Comando para crear la base de datos y realizar migraciones
-# RUN python manage.py makemigrations
-# RUN python manage.py migrate
+# Ejecuta las migraciones de la base de datos
+RUN python manage.py makemigrations
+RUN python manage.py migrate
 
-# Comando para correr el servidor
-CMD ["python", "manage.py", "runserver"]
+# Expone el puerto 8000 para que pueda ser accedido externamente
+EXPOSE 8000
+
+# Comando para ejecutar el servidor Django
+CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
