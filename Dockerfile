@@ -12,8 +12,8 @@ RUN pip install --no-cache-dir -r requirements.txt
 COPY . /app/
 
 # Comando para crear la base de datos y realizar migraciones
-RUN python manage.py makemigrations
-RUN python manage.py migrate
+# RUN python manage.py makemigrations
+# RUN python manage.py migrate
 
 # Comando para correr el servidor
 CMD ["python", "manage.py", "runserver"]
